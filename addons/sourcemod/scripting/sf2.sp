@@ -25,7 +25,7 @@
 #define PLUGIN_VERSION "0.2.6-git136"
 #define PLUGIN_VERSION_DISPLAY "0.2.6"
 
-public Plugin:myinfo = 
+public Plugin myinfo = 
 {
     name = "Slender Fortress",
     author	= "KitRifty",
@@ -72,52 +72,52 @@ enum MuteMode
 };
 
 // Offsets.
-new g_offsPlayerFOV = -1;
-new g_offsPlayerDefaultFOV = -1;
-new g_offsPlayerFogCtrl = -1;
-new g_offsPlayerPunchAngle = -1;
-new g_offsPlayerPunchAngleVel = -1;
-new g_offsFogCtrlEnable = -1;
-new g_offsFogCtrlEnd = -1;
+int g_offsPlayerFOV = -1;
+int g_offsPlayerDefaultFOV = -1;
+int g_offsPlayerFogCtrl = -1;
+int g_offsPlayerPunchAngle = -1;
+int g_offsPlayerPunchAngleVel = -1;
+int g_offsFogCtrlEnable = -1;
+int g_offsFogCtrlEnd = -1;
 
-new g_iParticleCriticalHit = -1;
+int g_iParticleCriticalHit = -1;
 
-new bool:g_bEnabled;
+bool g_bEnabled;
 
-new Handle:g_hConfig;
-new Handle:g_hRestrictedWeaponsConfig;
-new Handle:g_hSpecialRoundsConfig;
+Handle g_hConfig;
+Handle g_hRestrictedWeaponsConfig;
+Handle g_hSpecialRoundsConfig;
 
-new Handle:g_hPageMusicRanges;
+Handle g_hPageMusicRanges;
 
-new g_iSlenderModel[MAX_BOSSES] = { INVALID_ENT_REFERENCE, ... };
-new g_iSlenderPoseEnt[MAX_BOSSES] = { INVALID_ENT_REFERENCE, ... };
-new g_iSlenderCopyMaster[MAX_BOSSES] = { -1, ... };
-new Float:g_flSlenderEyePosOffset[MAX_BOSSES][3];
-new Float:g_flSlenderEyeAngOffset[MAX_BOSSES][3];
-new Float:g_flSlenderDetectMins[MAX_BOSSES][3];
-new Float:g_flSlenderDetectMaxs[MAX_BOSSES][3];
-new Handle:g_hSlenderThink[MAX_BOSSES];
-new Handle:g_hSlenderEntityThink[MAX_BOSSES];
-new Handle:g_hSlenderFakeTimer[MAX_BOSSES];
-new Float:g_flSlenderLastKill[MAX_BOSSES];
-new g_iSlenderState[MAX_BOSSES];
-new g_iSlenderTarget[MAX_BOSSES] = { INVALID_ENT_REFERENCE, ... };
-new Float:g_flSlenderAcceleration[MAX_BOSSES];
-new Float:g_flSlenderGoalPos[MAX_BOSSES][3];
-new Float:g_flSlenderStaticRadius[MAX_BOSSES];
-new Float:g_flSlenderChaseDeathPosition[MAX_BOSSES][3];
-new bool:g_bSlenderChaseDeathPosition[MAX_BOSSES];
-new Float:g_flSlenderIdleAnimationPlaybackRate[MAX_BOSSES];
-new Float:g_flSlenderWalkAnimationPlaybackRate[MAX_BOSSES];
-new Float:g_flSlenderRunAnimationPlaybackRate[MAX_BOSSES];
-new Float:g_flSlenderJumpSpeed[MAX_BOSSES];
-new Float:g_flSlenderPathNodeTolerance[MAX_BOSSES];
-new Float:g_flSlenderPathNodeLookAhead[MAX_BOSSES];
-new bool:g_bSlenderFeelerReflexAdjustment[MAX_BOSSES];
-new Float:g_flSlenderFeelerReflexAdjustmentPos[MAX_BOSSES][3];
+int g_iSlenderModel[MAX_BOSSES] = { INVALID_ENT_REFERENCE, ... };
+int g_iSlenderPoseEnt[MAX_BOSSES] = { INVALID_ENT_REFERENCE, ... };
+int g_iSlenderCopyMaster[MAX_BOSSES] = { -1, ... };
+float g_flSlenderEyePosOffset[MAX_BOSSES][3];
+float g_flSlenderEyeAngOffset[MAX_BOSSES][3];
+float g_flSlenderDetectMins[MAX_BOSSES][3];
+float g_flSlenderDetectMaxs[MAX_BOSSES][3];
+Handle g_hSlenderThink[MAX_BOSSES];
+Handle g_hSlenderEntityThink[MAX_BOSSES];
+Handle g_hSlenderFakeTimer[MAX_BOSSES];
+float g_flSlenderLastKill[MAX_BOSSES];
+int g_iSlenderState[MAX_BOSSES];
+int g_iSlenderTarget[MAX_BOSSES] = { INVALID_ENT_REFERENCE, ... };
+float g_flSlenderAcceleration[MAX_BOSSES];
+float g_flSlenderGoalPos[MAX_BOSSES][3];
+float g_flSlenderStaticRadius[MAX_BOSSES];
+float g_flSlenderChaseDeathPosition[MAX_BOSSES][3];
+bool g_bSlenderChaseDeathPosition[MAX_BOSSES];
+float g_flSlenderIdleAnimationPlaybackRate[MAX_BOSSES];
+float g_flSlenderWalkAnimationPlaybackRate[MAX_BOSSES];
+float g_flSlenderRunAnimationPlaybackRate[MAX_BOSSES];
+float g_flSlenderJumpSpeed[MAX_BOSSES];
+float g_flSlenderPathNodeTolerance[MAX_BOSSES];
+float g_flSlenderPathNodeLookAhead[MAX_BOSSES];
+bool g_bSlenderFeelerReflexAdjustment[MAX_BOSSES];
+float g_flSlenderFeelerReflexAdjustmentPos[MAX_BOSSES][3];
 
-new g_iSlenderTeleportTarget[MAX_BOSSES] = { INVALID_ENT_REFERENCE, ... };
+int g_iSlenderTeleportTarget[MAX_BOSSES] = { INVALID_ENT_REFERENCE, ... };
 
 new Float:g_flSlenderNextTeleportTime[MAX_BOSSES] = { -1.0, ... };
 new Float:g_flSlenderTeleportTargetTime[MAX_BOSSES] = { -1.0, ... };
@@ -180,7 +180,7 @@ new bool:g_bPageRef;
 new String:g_strPageRefModel[PLATFORM_MAX_PATH];
 new Float:g_flPageRefModelScale;
 
-static Handle:g_hPlayerIntroMusicTimer[MAXPLAYERS + 1] = { INVALID_HANDLE, ... };
+static Handle g_hPlayerIntroMusicTimer[MAXPLAYERS + 1] = { INVALID_HANDLE, ... };
 
 // Seeing Mr. Slendy data.
 new bool:g_bPlayerSeesSlender[MAXPLAYERS + 1][MAX_BOSSES];
@@ -214,12 +214,11 @@ new Float:g_flPlayerStaticShakeMinVolume[MAXPLAYERS + 1];
 new Float:g_flPlayerStaticShakeMaxVolume[MAXPLAYERS + 1];
 
 // Fake lag compensation for FF.
-new bool:g_bPlayerLagCompensation[MAXPLAYERS + 1];
-new g_iPlayerLagCompensationTeam[MAXPLAYERS + 1];
+bool g_bPlayerLagCompensation[MAXPLAYERS + 1];
+int g_iPlayerLagCompensationTeam[MAXPLAYERS + 1];
 
 // Hint data.
-enum
-{
+enum {
 	PlayerHint_Sprint = 0,
 	PlayerHint_Flashlight,
 	PlayerHint_MainMenu,
@@ -227,8 +226,7 @@ enum
 	PlayerHint_MaxNum
 };
 
-enum PlayerPreferences
-{
+enum PlayerPreferences {
 	bool:PlayerPreference_PvPAutoSpawn,
 	MuteMode:PlayerPreference_MuteMode,
 	bool:PlayerPreference_FilmGrain,
@@ -363,70 +361,70 @@ static Handle:g_hBossCountUpdateTimer = INVALID_HANDLE;
 static Handle:g_hClientAverageUpdateTimer = INVALID_HANDLE;
 
 // Server variables.
-new Handle:g_cvVersion;
-new Handle:g_cvEnabled;
-new Handle:g_cvSlenderMapsOnly;
-new Handle:g_cvPlayerViewbobEnabled;
-new Handle:g_cvPlayerShakeEnabled;
-new Handle:g_cvPlayerShakeFrequencyMax;
-new Handle:g_cvPlayerShakeAmplitudeMax;
-new Handle:g_cvGraceTime;
-new Handle:g_cvAllChat;
-new Handle:g_cv20Dollars;
-new Handle:g_cvMaxPlayers;
-new Handle:g_cvMaxPlayersOverride;
-new Handle:g_cvCampingEnabled;
-new Handle:g_cvCampingMaxStrikes;
-new Handle:g_cvCampingStrikesWarn;
-new Handle:g_cvCampingMinDistance;
-new Handle:g_cvCampingNoStrikeSanity;
-new Handle:g_cvCampingNoStrikeBossDistance;
-new Handle:g_cvDifficulty;
-new Handle:g_cvBossMain;
-new Handle:g_cvBossProfileOverride;
-new Handle:g_cvPlayerBlinkRate;
-new Handle:g_cvPlayerBlinkHoldTime;
-new Handle:g_cvSpecialRoundBehavior;
-new Handle:g_cvSpecialRoundForce;
-new Handle:g_cvSpecialRoundOverride;
-new Handle:g_cvSpecialRoundInterval;
-new Handle:g_cvNewBossRoundBehavior;
-new Handle:g_cvNewBossRoundInterval;
-new Handle:g_cvNewBossRoundForce;
-new Handle:g_cvPlayerVoiceDistance;
-new Handle:g_cvPlayerVoiceWallScale;
-new Handle:g_cvUltravisionEnabled;
-new Handle:g_cvUltravisionRadiusRed;
-new Handle:g_cvUltravisionRadiusBlue;
-new Handle:g_cvUltravisionBrightness;
-new Handle:g_cvGhostModeConnectionCheck;
-new Handle:g_cvGhostModeConnectionTolerance;
-new Handle:g_cvIntroEnabled;
-new Handle:g_cvIntroDefaultHoldTime;
-new Handle:g_cvIntroDefaultFadeTime;
-new Handle:g_cvTimeLimit;
-new Handle:g_cvTimeLimitEscape;
-new Handle:g_cvTimeGainFromPageGrab;
-new Handle:g_cvWarmupRound;
-new Handle:g_cvWarmupRoundNum;
-new Handle:g_cvPlayerViewbobHurtEnabled;
-new Handle:g_cvPlayerViewbobSprintEnabled;
-new Handle:g_cvPlayerFakeLagCompensation;
-new Handle:g_cvPlayerProxyWaitTime;
-new Handle:g_cvPlayerProxyAsk;
-new Handle:g_cvHalfZatoichiHealthGain;
-new Handle:g_cvBlockSuicideDuringRound;
+ConVar g_cvVersion;
+ConVar g_cvEnabled;
+ConVar g_cvSlenderMapsOnly;
+ConVar g_cvPlayerViewbobEnabled;
+ConVar g_cvPlayerShakeEnabled;
+ConVar g_cvPlayerShakeFrequencyMax;
+ConVar g_cvPlayerShakeAmplitudeMax;
+ConVar g_cvGraceTime;
+ConVar g_cvAllChat;
+ConVar g_cv20Dollars;
+ConVar g_cvMaxPlayers;
+ConVar g_cvMaxPlayersOverride;
+ConVar g_cvCampingEnabled;
+ConVar g_cvCampingMaxStrikes;
+ConVar g_cvCampingStrikesWarn;
+ConVar g_cvCampingMinDistance;
+ConVar g_cvCampingNoStrikeSanity;
+ConVar g_cvCampingNoStrikeBossDistance;
+ConVar g_cvDifficulty;
+ConVar g_cvBossMain;
+ConVar g_cvBossProfileOverride;
+ConVar g_cvPlayerBlinkRate;
+ConVar g_cvPlayerBlinkHoldTime;
+ConVar g_cvSpecialRoundBehavior;
+ConVar g_cvSpecialRoundForce;
+ConVar g_cvSpecialRoundOverride;
+ConVar g_cvSpecialRoundInterval;
+ConVar g_cvNewBossRoundBehavior;
+ConVar g_cvNewBossRoundInterval;
+ConVar g_cvNewBossRoundForce;
+ConVar g_cvPlayerVoiceDistance;
+ConVar g_cvPlayerVoiceWallScale;
+ConVar g_cvUltravisionEnabled;
+ConVar g_cvUltravisionRadiusRed;
+ConVar g_cvUltravisionRadiusBlue;
+ConVar g_cvUltravisionBrightness;
+ConVar g_cvGhostModeConnectionCheck;
+ConVar g_cvGhostModeConnectionTolerance;
+ConVar g_cvIntroEnabled;
+ConVar g_cvIntroDefaultHoldTime;
+ConVar g_cvIntroDefaultFadeTime;
+ConVar g_cvTimeLimit;
+ConVar g_cvTimeLimitEscape;
+ConVar g_cvTimeGainFromPageGrab;
+ConVar g_cvWarmupRound;
+ConVar g_cvWarmupRoundNum;
+ConVar g_cvPlayerViewbobHurtEnabled;
+ConVar g_cvPlayerViewbobSprintEnabled;
+ConVar g_cvPlayerFakeLagCompensation;
+ConVar g_cvPlayerProxyWaitTime;
+ConVar g_cvPlayerProxyAsk;
+ConVar g_cvHalfZatoichiHealthGain;
+ConVar g_cvBlockSuicideDuringRound;
 
-new Handle:g_cvPlayerInfiniteSprintOverride;
-new Handle:g_cvPlayerInfiniteFlashlightOverride;
-new Handle:g_cvPlayerInfiniteBlinkOverride;
+ConVar g_cvPlayerInfiniteSprintOverride;
+ConVar g_cvPlayerInfiniteFlashlightOverride;
+ConVar g_cvPlayerInfiniteBlinkOverride;
 
-new Handle:g_cvGravity;
-new Float:g_flGravity;
+ConVar g_cvGravity;
+float g_flGravity;
 
-new Handle:g_cvMaxRounds;
+ConVar g_cvMaxRounds;
 
-new bool:g_b20Dollars;
+bool g_b20Dollars;
 
 new bool:g_bPlayerShakeEnabled;
 new bool:g_bPlayerViewbobEnabled;
